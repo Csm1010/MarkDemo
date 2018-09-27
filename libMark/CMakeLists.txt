@@ -1,0 +1,12 @@
+include_directories(./include)
+include_directories(${PROJECT_SOURCE_DIR}/libBase/include)
+AUX_SOURCE_DIRECTORY(./src MARK_DIR_SRCS)
+ADD_LIBRARY(Mark ${MARK_DIR_SRCS})
+
+find_package(TensorflowCC COMPONENTS Shared)
+if(TensorflowCC_Shared_FOUND)
+    target_link_libraries(Mark TensorflowCC::Shared)
+else()
+    find_package(TensorflowCC REQUIRED COMPONENTS Static)
+    target_link_libraries(Mark TensorflowCC::Static)
+endif()
